@@ -811,8 +811,8 @@ function loadSelectedVariant() {
     var selectedName = selector.value;
     if (!selectedName) return;
     
-    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
-    var rawText = savedVariants[selectedName];
+    // СТРОГИЙ ФИКС: читаем текст напрямую из вшитой базы данных, а не из пустой памяти!
+    var rawText = MY_DATABASE[selectedName];
     
     if (rawText) {
         var mainTextarea = document.getElementById('rawImportText') || document.querySelector('textarea');
@@ -826,6 +826,7 @@ function loadSelectedVariant() {
         }
     }
 }
+updateVariantDropdown();
 
 
 </script>
