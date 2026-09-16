@@ -249,11 +249,11 @@ var MY_DATABASE = {
 };
 
         // Базовые массивы для хранения ОРИГИНАЛЬНЫХ данных с сайта
-        var currentRightAnswers = "125,125,132,1234569,145,1234578,гуляний,утинаястая,34,24,достала".split(",");
-        var currentTaskIds = "41027,28060,44903,30692,30211,26143,31596,28893,32181,28237,39802".split(",");
+        var currentRightAnswers = [];
+        var currentTaskIds = [];
         
         // Два ID для С-части по умолчанию
-        var currentPart2Ids = "36401,44668".split(",");
+        var currentPart2Ids = [];
 
         function makeFakeWrongAnswer(correctVal, taskIndex) {
     if (!correctVal) return "24";
@@ -763,17 +763,20 @@ function logoutAdmin() {
 // Обновление списка в меню
 function updateVariantDropdown() {
     var selector = document.getElementById('variantSelector');
+    // Очищаем всё, кроме первой дефолтной строки
     selector.innerHTML = '<option value="">-- Выбери вариант из списка --</option>';
     
-    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
-    
-    for (var varName in savedVariants) {
-        var option = document.createElement('option');
-        option.value = varName;
-        option.textContent = varName;
-        selector.appendChild(option);
+    // СТРОГИЙ ФИКС: Перебираем намертво вшитую базу данных MY_DATABASE вместо localStorage
+    if (typeof MY_DATABASE !== "undefined") {
+        for (var varName in MY_DATABASE) {
+            var option = document.createElement('option');
+            option.value = varName;
+            option.textContent = varName;
+            selector.appendChild(option);
+        }
     }
 }
+
 
 // Сохранение нового варианта
 function saveNewVariant() {
