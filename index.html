@@ -161,7 +161,7 @@
         <button class="btn" onclick="parseAndImport()">📥 Распознать и сгенерировать</button>
     </div>
 
-    <div id="screenshot-area">
+    <div id="screenshot-area" style="display: none !important;">
         
         <div class="table-wrapper">
             <table class="oge-table">
@@ -228,6 +228,9 @@
     </div>
 </div>
     <script>
+	// Намертво вшитая база данных со всеми 15 вариантами для всех пользователей
+var MY_DATABASE = JSON.parse('{"Вариант 1(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38590\\t\\t245\\n3\\t38587\\t\\t14\\n4\\t38145\\t\\t324\\n5\\t21295\\t\\t2689\\n6\\t21297\\t\\t245\\n7\\t38081\\t\\t3789\\n8\\t38164\\t\\tхлещут\\n9\\t13055\\t\\tкорабельнаяпалуба\\n10\\t36165\\t\\t145\\n11\\t36177\\t\\t34\\n12\\t36191\\t\\tмольберты","Вариант 2(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38578\\t\\t125\\n3\\t38577\\t\\t34\\n4\\t38328\\t\\t215\\n5\\t21307\\t\\t17\\n6\\t27884\\t\\t14\\n7\\t38314\\t\\t1246\\n8\\t38182\\t\\tчетырёмстам\\n9\\t40789\\t\\tлюблючтение\\n10\\t30488\\t\\t15\\n11\\t35752\\t\\t3\\n12\\t30490\\t\\tгрустное","Вариант 3(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38395\\t\\t345\\n3\\t27948\\t\\t35\\n4\\t38107\\t\\t435\\n5\\t27701\\t\\t13\\n6\\t27757\\t\\t12\\n7\\t38309\\t\\t12458\\n8\\t38181\\t\\tста\\n9\\t40780\\t\\tсабельныйудар\\n10\\t28969\\t\\t134\\n11\\t28593\\t\\t15\\n12\\t28801\\t\\tмногомало","Вариант 4(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38398\\t\\t34\\n3\\t28122\\t\\t14\\n4\\t38341\\t\\t152\\n5\\t28350\\t\\t2568\\n6\\t27710\\t\\t14\\n7\\t38264\\t\\t36\\n8\\t38187\\t\\tисчез\\n9\\t40771\\t\\tзаячьиуши\\n10\\t28572\\t\\t13\\n11\\t28896\\t\\t3\\n12\\t28814\\t\\tнеужто","Вариант 5(сентябрьский)":"2\\t38611\\t\\t25\\n3\\t38612\\t\\t124\\n4\\t38347\\t\\t243\\n5\\t27819\\t\\t16\\n6\\t28259\\t\\t145\\n7\\t38126\\t\\t12689\\n8\\t38200\\t\\tсидений\\n9\\t40786\\t\\tконскаягрива\\n10\\t27643\\t\\t45\\n11\\t27719\\t\\t15\\n12\\t28204\\t\\tгамак","Вариант 6(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38513\\t\\t125\\n3\\t38512\\t\\t124\\n4\\t38352\\t\\t215\\n5\\t27902\\t\\t123568\\n6\\t27911\\t\\t123\\n7\\t38121\\t\\t3569\\n8\\t38209\\t\\tпятисот\\n9\\t40810\\t\\tщенячьирадости\\n10\\t27906\\t\\t235\\n11\\t28336\\t\\t35\\n12\\t28904\\t\\tсмежив","Вариант 7(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38584\\t\\t15\\n3\\t38586\\t\\t134\\n4\\t38148\\t\\t451\\n5\\t28361\\t\\t1234569\\n6\\t28001\\t\\t24\\n7\\t38307\\t\\t124\\n8\\t38179\\t\\tполутора\\n9\\t40773\\t\\tболотистый край\\n10\\t27857\\t\\t34\\n11\\t28893\\t\\t25\\n12\\t28376\\t\\tзаманчивой","Вариант 8(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38563\\t\\t235\\n3\\t38560\\t\\t35\\n4\\t38149\\t\\t143\\n5\\t28417\\t\\t1346789\\n6\\t28114\\t\\t34\\n7\\t38226\\t\\t1679\\n8\\t40755\\t\\tкатера\\n9\\t40802\\t\\tхожуплавать\\n10\\t28324\\t\\t135\\n11\\t28211\\t\\t24\\n12\\t28379\\t\\tтолпу","Вариант 9(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38465\\t\\t24\\n3\\t38464\\t\\t124\\n4\\t38109\\t\\t351\\n5\\t28952\\t\\t23458\\n6\\t34248\\t\\t14\\n7\\t38120\\t\\t234789\\n8\\t38103\\t\\tляг\\n9\\t40812\\t\\tцыплячийпух\\n10\\t27888\\t\\t124\\n11\\t27789\\t\\t24\\n12\\t27652\\t\\tвзялсязаум","Вариант 10(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38470\\t\\t145\\n3\\t38469\\t\\t345\\n4\\t38350\\t\\t524\\n5\\t28630\\t\\t12457\\n6\\t27922\\t\\t24\\n7\\t38308\\t\\t25679\\n8\\t38167\\t\\tбананов\\n9\\t27802\\t\\tсказалсгрустью\\n10\\t28266\\t\\t35\\n11\\t28019\\t\\t45\\n12\\t27584\\t\\tруслом","Вариант 11(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38520\\t\\t235\\n3\\t38519\\t\\t23\\n4\\t38333\\t\\t413\\n5\\t27885\\t\\t123479\\n6\\t28284\\t\\t34\\n7\\t38319\\t\\t1234689\\n8\\t38177\\t\\tсотен\\n9\\t40808\\t\\tпрохладаночи\\n10\\t34222\\t\\t24\\n11\\t34223\\t\\t24\\n12\\t34224\\t\\tрадостновесело","Вариант 12(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38507\\t\\t14\\n3\\t38506\\t\\t135\\n4\\t38342\\t\\t532\\n5\\t28200\\t\\t17\\n6\\t28288\\t\\t15\\n7\\t38127\\t\\t124\\n8\\t38099\\t\\tсбережёт\\n9\\t40795\\t\\tжитьбеззаботно\\n10\\t34279\\t\\t135\\n11\\t34280\\t\\t15\\n12\\t34281\\t\\tпромямлил","Вариант 13(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38511\\t\\t34\\n3\\t38510\\t\\t134\\n4\\t38348\\t\\t123\\n5\\t28874\\t\\t36789\\n6\\t34269\\t\\t234\\n7\\t38227\\t\\t1246789\\n8\\t38203\\t\\tтуфель\\n9\\t28367\\t\\tответилсгордостью\\n10\\t28713\\t\\t145\\n11\\t28836\\t\\t35\\n12\\t28927\\t\\tзлого","Вариант 14(сентябрьский)":"Тестовая часть\\n№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38399\\t\\t12\\n3\\t28174\\t\\t134\\n4\\t38252\\t\\t534\\n5\\t28577\\t\\t26789\\n6\\t28061\\t\\t14\\n7\\t38322\\t\\t24569\\n8\\t38191\\t\\tбашен\\n9\\t40796\\t\\tклетчатыйшарф\\n10\\t36391\\t\\t15\\n11\\t28882\\t\\t45\\n12\\t28601\\t\\tпренебрёг","Вариант 15(сентябрьский)":"№\\nп/п\\t№\\tВаш\\nответ\\tПравильный\\nответ\\n2\\t38559\\t\\t125\\n3\\t38558\\t\\t125\\n4\\t38246\\t\\t132\\n5\\t28246\\t\\t1234569\\n6\\t27841\\t\\t145\\n7\\t38135\\t\\t12345789\\n8\\t38201\\t\\tгуляний\\n9\\t40774\\t\\tутинаястая\\n10\\t28295\\t\\t34\\n11\\t28073\\t\\t24\\n12\\t28769\\t\\tдостала"}');
+
         // Базовые массивы для хранения ОРИГИНАЛЬНЫХ данных с сайта
         var currentRightAnswers = "125,125,132,1234569,145,1234578,гуляний,утинаястая,34,24,достала".split(",");
         var currentTaskIds = "41027,28060,44903,30692,30211,26143,31596,28893,32181,28237,39802".split(",");
@@ -240,14 +243,15 @@
     
     var numString = correctVal.toString().trim();
     var currentLength = numString.length;
-    var realTaskNum = taskIndex + 2; 
+    var realTaskNum = taskIndex + 2; // Строго равен номеру задания ОГЭ (2, 3, 4, 5... 12)
 
-    // ==========================================
-    // ЛОГИКА ДЛЯ ТЕКСТОВЫХ ОТВЕТОВ (Задания 8, 9, 12)
-    // ==========================================
-    if (isNaN(numString)) {
+    // ======================================================================
+    // ГРУППА 3. ТЕКСТОВЫЕ ОТВЕТЫ (Задания 8 и 12)
+    // ======================================================================
+    if (realTaskNum === 8 || realTaskNum === 12 || isNaN(numString)) {
         var word = numString.toLowerCase().replace(/\s+/g, ''); 
         
+        // Если слово длинное, делаем опечатку невнимательности (меняем буквы местами)
         if (word.length > 5) {
             var chars = word.split('');
             var idx = Math.floor(Math.random() * (chars.length - 3)) + 1;
@@ -256,117 +260,158 @@
             chars[idx+1] = temp;
             return chars.join('');
         }
+        // Изменение окончания
         if (word.endsWith('ий') || word.endsWith('ый')) {
             return word.slice(0, -2) + 'их';
         }
-        return word + 'а';
+        return word + 'о';
     }
 
-    // ==========================================
-    // ЛОГИКА ДЛЯ ЦИФРОВЫХ ОТВЕТОВ
-    // ==========================================
-    // Жёстко разделяем разрешенные цифры:
-    var allowedDigits = "12345"; 
-    var maxLength = 4;
-
-    // Только в этих заданиях ОГЭ по русскому могут быть цифры до 9
-    if (realTaskNum === 3 || realTaskNum === 5 || realTaskNum === 7) {
-        allowedDigits = "123456789"; 
-        maxLength = allowedDigits.length;
-    }
-
-    var targetLength = currentLength;
-    var randMode = Math.random();
-    
-    if (currentLength > 1) {
-        if (randMode < 0.33 && currentLength < maxLength) {
-            targetLength = currentLength + 1; 
-        } else if (randMode < 0.66 && currentLength > 2) {
-            targetLength = currentLength - 1; 
-        } 
-    }
-
-    var finalDigits = numString.split(""); 
-
-    if (targetLength < currentLength) {
-        // Ошибка недобора: убираем одну цифру
-        var removeIdx = Math.floor(Math.random() * finalDigits.length);
-        finalDigits.splice(removeIdx, 1);
-    } 
-    else if (targetLength > currentLength) {
-        // Ошибка перебора: добавляем одну лишнюю цифру СТРОГО из разрешенных для этого задания
+    // ======================================================================
+    // ГРУППА 3 (продолжение). Задание №4 (Установление соответствия - строго 3 цифры!)
+    // Выбор идет строго из 5 предложений (1-5), порядок цифр НЕ СОРТИРУЕМ!
+    // ======================================================================
+    if (realTaskNum === 4) {
+        var allowedDigits = "12345"; // Строго до 5 предложений, никаких 8 и 9
+        var finalDigits = numString.split(""); 
+        
+        // Ошибка замены: меняем одну цифру на другую, ПОРЯДОК НЕ СОРТИРУЕМ!
+        var replaceIdx = Math.floor(Math.random() * finalDigits.length);
         var attempts = 0;
-        while (finalDigits.length < targetLength && attempts < 50) {
+        while (attempts < 50) {
             attempts++;
             var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
             if (!finalDigits.includes(digit)) {
-                finalDigits.push(digit);
-            }
-        }
-    } 
-    else {
-        // Ошибка замены: меняем одну цифру на близкую, проверяя границы allowedDigits
-        var replaceIdx = Math.floor(Math.random() * finalDigits.length);
-        var originalDigit = parseInt(finalDigits[replaceIdx]);
-        var replaced = false;
-
-        var offsets = [1, -1, 2, -2];
-        for (var i = 0; i < offsets.length; i++) {
-            var newDigit = (originalDigit + offsets[i]).toString();
-            // ТЕПЕРЬ ТУТ СТРОГАЯ ПРОВЕРКА: новая цифра должна входить в allowedDigits для текущего задания
-            if (allowedDigits.includes(newDigit) && !finalDigits.includes(newDigit)) {
-                finalDigits[replaceIdx] = newDigit;
-                replaced = true;
+                finalDigits[replaceIdx] = digit;
                 break;
             }
         }
+        
+        var finalFake = finalDigits.join(""); 
+        if (finalFake === numString) {
+            // Если совпал — гарантированно меняем последнюю цифру на другую свободную из диапазона 1-5
+            var possibleExtras = "12345".split("").filter(function(d) { return !finalFake.includes(d); });
+            var newLast = possibleExtras.length > 0 ? possibleExtras[Math.floor(Math.random() * possibleExtras.length)] : (finalFake.charAt(2) === "5" ? "4" : "5");
+            finalFake = finalFake.substring(0, 2) + newLast.toString();
+        }
+        return finalFake;
+    }
 
-        if (!replaced) {
-            for (var i = 0; i < allowedDigits.length; i++) {
-                var d = allowedDigits[i];
-                if (!finalDigits.includes(d)) {
-                    finalDigits[replaceIdx] = d;
+    // ======================================================================
+    // ГРУППА 1. Множественный выбор из 5 пунктов (Задания 2, 3, 6, 9, 10, 11)
+    // Строго от 2 до 4 цифр, диапазон только 1-5, по возрастанию!
+    // ======================================================================
+    if (realTaskNum === 2 || realTaskNum === 3 || realTaskNum === 6 || realTaskNum === 9 || realTaskNum === 10 || realTaskNum === 11) {
+        var allowedDigits = "12345";
+        var targetLength = currentLength;
+        var randMode = Math.random();
+        
+        // Меняем длину в пределах от 2 до 4
+        if (randMode < 0.33 && currentLength < 4) {
+            targetLength = currentLength + 1; 
+        } else if (randMode < 0.66 && currentLength > 2) {
+            targetLength = currentLength - 1; 
+        }
+        
+        var finalDigits = numString.split("");
+        
+        if (targetLength < currentLength) {
+            var removeIdx = Math.floor(Math.random() * finalDigits.length);
+            finalDigits.splice(removeIdx, 1);
+        } else if (targetLength > currentLength) {
+            var attempts = 0;
+            while (finalDigits.length < targetLength && attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) finalDigits.push(digit);
+            }
+        } else {
+            var replaceIdx = Math.floor(Math.random() * finalDigits.length);
+            var attempts = 0;
+            while (attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) {
+                    finalDigits[replaceIdx] = digit;
                     break;
                 }
             }
         }
-    }
-
-    // Сортировка по правилам ОГЭ (все задания кроме 4)
-    var finalFake = "";
-    if (realTaskNum === 4) {
-        finalFake = finalDigits.join(""); 
-    } else {
-        finalFake = finalDigits.sort().join(""); 
-    }
-
-    // Если совпало с оригиналом, точечно меняем последний символ из разрешенного набора
-    if (finalFake === numString) {
-        var extraDigits = allowedDigits.split("").filter(function(d) { return !numString.includes(d); });
-        if (extraDigits.length > 0) {
-            finalFake = finalFake.substring(0, finalFake.length - 1) + extraDigits[0];
-        } else {
-            // Флбэк для экзотических случаев
-            finalFake = finalFake.includes("5") ? finalFake.replace("5", "4") : finalFake + "5";
-        }
         
-        if (realTaskNum !== 4) {
+        var finalFake = finalDigits.sort().join(""); 
+        
+        if (finalFake === numString) {
+            if (finalFake.includes("5")) {
+                finalFake = finalFake.replace("5", "3");
+            } else {
+                finalFake = finalFake + "5";
+            }
             finalFake = finalFake.split("").sort().join("");
         }
-    }
-
-    // Дополнительный сэйф-чек: если для обычного задания длина или символы вылетели за рамки
-    if (realTaskNum !== 3 && realTaskNum !== 5 && realTaskNum !== 7 && realTaskNum !== 4) {
-        // Убираем любые цифры больше 5, если они каким-то чудом пролезли
-        finalFake = finalFake.split("").filter(function(d) { return "12345".includes(d); }).join("");
+        
+        // Жесткий контроль рамок и фильтрация от букв
+        if (finalFake.length < 2) finalFake = "24";
         if (finalFake.length > 4) finalFake = finalFake.substring(0, 4);
-    }
-    if (finalFake.length < 2 && realTaskNum !== 11 && realTaskNum !== 12 && !isNaN(numString)) {
-        finalFake = "24";
+        
+        return finalFake.split("").filter(function(d) { return "12345".includes(d); }).join("");
     }
 
-    return finalFake;
+    // ======================================================================
+    // ГРУППА 2. Поиск цифр в тексте (Задания 5 и 7)
+    // Количество ответов не ограничено, диапазон от 1 до 9, по возрастанию!
+    // ======================================================================
+    if (realTaskNum === 5 || realTaskNum === 7) {
+        var allowedDigits = "123456789";
+        var targetLength = currentLength;
+        var randMode = Math.random();
+        
+        if (randMode < 0.33 && currentLength < 9) {
+            targetLength = currentLength + 1;
+        } else if (randMode < 0.66 && currentLength > 1) {
+            targetLength = currentLength - 1;
+        }
+        
+        var finalDigits = numString.split("");
+        
+        if (targetLength < currentLength) {
+            var removeIdx = Math.floor(Math.random() * finalDigits.length);
+            finalDigits.splice(removeIdx, 1);
+        } else if (targetLength > currentLength) {
+            var attempts = 0;
+            while (finalDigits.length < targetLength && attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) finalDigits.push(digit);
+            }
+        } else {
+            var replaceIdx = Math.floor(Math.random() * finalDigits.length);
+            var attempts = 0;
+            while (attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) {
+                    finalDigits[replaceIdx] = digit;
+                    break;
+                }
+            }
+        }
+        
+        var finalFake = finalDigits.sort().join(""); 
+        if (finalFake === numString) {
+            if (finalFake.includes("9")) {
+                finalFake = finalFake.replace("9", "1");
+            } else {
+                finalFake = finalFake + "9";
+            }
+            finalFake = finalFake.split("").sort().join("");
+        }
+        
+        return finalFake.split("").filter(function(d) { return "123456789".includes(d); }).join("");
+    }
+
+    return numString; 
 }
+
 
 
 
@@ -417,6 +462,14 @@
     }
 
    function renderTables() {
+    var screenshotArea = document.getElementById("screenshot-area");
+    if (screenshotArea) {
+        screenshotArea.style.setProperty("display", "inline-flex", "important");
+    }
+
+    var testTbody = document.getElementById("test-tbody");
+    testTbody.innerHTML = "";
+
     var testTbody = document.getElementById("test-tbody");
     testTbody.innerHTML = "";
     var requestedErrors = parseInt(document.getElementById("autoErrorsInput").value) || 0;
@@ -562,7 +615,6 @@
         summary.innerHTML = "Решено " + finalSolved + " из " + totalTasks + " заданий, набрано " + finalScore + " первичных баллов.";
     }
 
-    renderTables();
 // Автоматическая загрузка списка вариантов при старте страницы
 document.addEventListener("DOMContentLoaded", function() {
     updateVariantDropdown();
@@ -574,16 +626,17 @@ function updateVariantDropdown() {
     // Очищаем всё, кроме первой дефолтной строки
     selector.innerHTML = '<option value="">-- Выбери вариант из списка --</option>';
     
-    // Достаем сохраненные варианты из памяти браузера
-    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
-    
-    for (var varName in savedVariants) {
-        var option = document.createElement('option');
-        option.value = varName;
-        option.textContent = varName;
-        selector.appendChild(option);
+    // Перебираем намертво вшитую базу данных MY_DATABASE
+    if (typeof MY_DATABASE !== "undefined") {
+        for (var varName in MY_DATABASE) {
+            var option = document.createElement('option');
+            option.value = varName;
+            option.textContent = varName;
+            selector.appendChild(option);
+        }
     }
 }
+
 
 // Функция сохранения нового варианта в базу данных браузера
 function saveNewVariant() {
@@ -616,20 +669,18 @@ function loadSelectedVariant() {
     
     if (!selectedName) return;
     
-    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
-    var rawText = savedVariants[selectedName];
+    // Достаем текст варианта из вшитой базы
+    var rawText = MY_DATABASE[selectedName];
     
     if (rawText) {
-        // 1. Находим твое верхнее текстовое поле. 
-        // В оригинальном коде у него id="rawInput" (или найди его textarea)
-        var mainTextarea = document.getElementById('rawInput') || document.querySelector('textarea');
+        // Находим твое верхнее текстовое поле (у тебя оно id="rawImportText")
+        var mainTextarea = document.getElementById('rawImportText') || document.querySelector('textarea');
         
         if (mainTextarea) {
             // Записываем сохраненный текст в поле ввода
             mainTextarea.value = rawText;
             
-            // 2. Имитируем клик по твоей синей кнопке «Распознать и сгенерировать»
-            // Ищем синюю кнопку по тексту на ней
+            // Имитируем клик по твоей синей кнопке «Распознать и сгенерировать»
             var allButtons = document.querySelectorAll('button');
             var generateButton = null;
             
@@ -644,8 +695,10 @@ function loadSelectedVariant() {
             if (generateButton) {
                 generateButton.click();
             } else {
-                // Флбэк: если кнопка не нажалась, просто выведем алерт, что текст на месте
-                alert("Текст вставлен в поле! Нажми синюю кнопку 'Распознать и сгенерировать'.");
+                // Если кнопка не кликнулась сама, вызываем функцию парсинга напрямую
+                if (typeof parseAndImport === "function") {
+                    parseAndImport();
+                }
             }
         } else {
             alert("Не удалось найти поле для ввода текста на странице.");
