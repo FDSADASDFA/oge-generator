@@ -149,26 +149,19 @@
         /* НАШИ МОДИФИКАТОРЫ: ТЁМНАЯ ТЕМА И КАСТОМНЫЕ ФОНЫ ДЛЯ САЙТА */
         /* ======================================================== */
         body {
-            background-image: url('images/dark-bg.png'); 
+            /* Подключаем локальную картинку инсектоида */
+            background-image: url('images/dark-bg.png') !important; 
             background-attachment: fixed !important;
-            background-size: contain !important; /* Вмещаем картинку целиком */
-            
-            /* ВЫРАВНИВАЕМ ВЫШЕБАННУЮ КАРТИНКУ ПРЯМО ПО ЦЕНТРУ ЭКРАНА */
-            background-position: center center !important; 
+            background-size: cover !important;
+            background-position: center !important;
             background-repeat: no-repeat !important;
-            
-            /* Цвет фона вокруг картинки инсектоида (чистый белый, чтобы сливался с краями мема) */
-            background-color: #ffffff !important; 
-            color: #ffffff !important; 
+            color: #ffffff !important; /* Текст интерфейса становится белым */
         }
 
         /* Переключение фона на фембоя при клике на сердечко */
         body.femboy-mode {
-            background-image: 1. url('images/pink-bg.png'); 
-            background-position: center center !important; /* Тоже по центру */
-            
-            /* Цвет фона вокруг фембоя (чистый черный, под цвет его худи и краев картинки) */
-            background-color: #000000 !important; 
+            /* Подключаем локальную картинку фембоя */
+            background-image: url('images/pink-bg.png') !important; 
         }
 
         /* Перекрашиваем интерфейс управления в тёмный цвет */
@@ -196,13 +189,9 @@
         #screenshot-area { 
             background-color: #ffffff !important; 
         }
-        #screenshot-area .oge-table, 
-        #screenshot-area .table-wrapper, 
-        #screenshot-area .summary-text { 
+        #screenshot-area * { 
             color: #000000 !important; 
-        }
-        #screenshot-area td {
-            color: #000000 !important;
+            background-color: transparent; 
         }
         #screenshot-area td.correct { 
             background-color: #c0ffc0 !important; 
@@ -210,15 +199,9 @@
         #screenshot-area td.incorrect { 
             background-color: #ffc0c0 !important; 
         }
-        #screenshot-area .table-input { 
+        #screenshot-area input { 
             background: transparent !important; 
             color: #000000 !important; 
-            border: none !important;
-            outline: none !important;
-        }
-        #screenshot-area .table-input:focus {
-            outline: 1px solid #007bff !important;
-            background: #ffffff !important;
         }
 </style>
 
