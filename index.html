@@ -145,30 +145,62 @@
             max-width: 350px;
         }
 
-        /* ======================================================== */
-        /* НАШИ МОДИФИКАТОРЫ: ТЁМНАЯ ТЕМА И КАСТОМНЫЕ ФОНЫ ДЛЯ САЙТА */
+         /* ======================================================== */
+        /* НАСТРОЙКА ДЛЯ КОМПЬЮТЕРОВ И НОУТБУКОВ                   */
         /* ======================================================== */
         body {
             background-image: url('images/dark-bg.png'); 
             background-attachment: fixed !important;
             
-            /* ЖЁСТКО ДЛЯ ОБОИХ РЕЖИМОВ: Картинка сохраняет свой оригинальный размер */
+            /* Картинка инсектоида НЕ растягивается и НЕ жмется, сохраняя 100% четкость */
             background-size: contain !important; 
             background-position: center center !important; 
             background-repeat: no-repeat !important;
             
-            background-color: #ffffff !important; 
+            /* ТОТ САМЫЙ ЦВЕТ: Идеально подбираем бежевый оттенок под фон картинки */
+            background-color: #f7f2e8 !important; 
             color: #ffffff !important; 
         }
 
-        /* Переключение фона на фембоя при клике на сердечко */
         body.femboy-mode {
             background-image: url('images/pink-bg.png'); 
-            
-            /* ДЛЯ ВТОРОЙ КАРТИНКИ ТОЖЕ ПОВТОРЯЕМ ПРАВИЛА, ЧТОБЫ ЕЁ НЕ РАСТЯГИВАЛО */
-            background-size: contain !important;
+            /* Розовый арт прямоугольный, поэтому его мы честно растягиваем на весь экран */
+            background-size: cover !important;
             background-position: center center !important;
-            background-color: #000000 !important; 
+            /* Фон на случай загрузки сделаем темно-синим/черным под стать арту */
+            background-color: #0b0f19 !important; 
+        }
+
+        /* ======================================================== */
+        /* УМНЫЙ ПЕРЕКЛЮЧАТЕЛЬ ДЛЯ ТЕЛЕФОНОВ (Экран < 768px)        */
+        /* ======================================================== */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('images/dark-phone.png') !important;
+                background-size: cover !important;
+                background-position: center center !important;
+                background-attachment: scroll !important; 
+                background-color: #ffffff !important; /* На мобилке фон белый под ч/б мангу */
+            }
+            
+            body.femboy-mode {
+                background-image: url('images/pink-phone.png') !important;
+                background-size: cover !important;
+                background-position: center center !important;
+                background-color: #fff0f5 !important; 
+            }
+
+            /* Фиксы интерфейса для смартфонов */
+            .control-panel, div[style*="background: #f9f9f9"], div[style*="background: rgb(249, 249, 249)"] {
+                margin: 10px 0 !important;
+                padding: 15px !important;
+            }
+            
+            .heart-toggle, div[onclick="toggleTheme()"] {
+                top: 15px !important;
+                right: 15px !important;
+                font-size: 28px !important;
+            }
         }
 
         /* Перекрашиваем интерфейс управления в тёмный цвет */
