@@ -149,19 +149,26 @@
         /* НАШИ МОДИФИКАТОРЫ: ТЁМНАЯ ТЕМА И КАСТОМНЫЕ ФОНЫ ДЛЯ САЙТА */
         /* ======================================================== */
         body {
-            /* Подключаем локальную картинку инсектоида */
-            background-image: url('images/dark-bg.png') !important; 
+            background-image: url('images/dark-bg.png'); 
             background-attachment: fixed !important;
-            background-size: cover !important;
-            background-position: center !important;
+            
+            /* ЖЁСТКО ДЛЯ ОБОИХ РЕЖИМОВ: Картинка сохраняет свой оригинальный размер */
+            background-size: contain !important; 
+            background-position: center center !important; 
             background-repeat: no-repeat !important;
-            color: #ffffff !important; /* Текст интерфейса становится белым */
+            
+            background-color: #ffffff !important; 
+            color: #ffffff !important; 
         }
 
         /* Переключение фона на фембоя при клике на сердечко */
         body.femboy-mode {
-            /* Подключаем локальную картинку фембоя */
-            background-image: url('images/pink-bg.png') !important; 
+            background-image: url('images/pink-bg.png'); 
+            
+            /* ДЛЯ ВТОРОЙ КАРТИНКИ ТОЖЕ ПОВТОРЯЕМ ПРАВИЛА, ЧТОБЫ ЕЁ НЕ РАСТЯГИВАЛО */
+            background-size: contain !important;
+            background-position: center center !important;
+            background-color: #000000 !important; 
         }
 
         /* Перекрашиваем интерфейс управления в тёмный цвет */
