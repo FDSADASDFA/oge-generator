@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рабочая версия</title>
+    <style>
+        /* ======================================================== */
+        /* ТВОИ ОРИГИНАЛЬНЫЕ НЕИЗМЕННЫЕ СТИЛИ (НЕ ТРОГАЕМ)          */
+        /* ======================================================== */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 20px;
+            color: #000;
+        }
+        .control-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            max-width: 850px;
+        }
+        .control-panel h3 { margin-top: 0; color: #333; }
+        .import-box {
+            width: 100%;
+            height: 70px;
+            margin: 10px 0;
+            padding: 8px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        .settings-inputs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .settings-inputs label {
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .settings-inputs input {
+            width: 50px;
+            padding: 3px;
+            font-size: 13px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .btn:hover { background-color: #0056b3; }
+
+        #screenshot-area {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            display: inline-flex;
+            gap: 50px;
+            align-items: flex-start;
+            position: relative;
+        }
+        .table-wrapper {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .oge-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px; 
+            font-family: Verdana, Geneva, sans-serif; 
+            color: #000;
+            table-layout: auto; 
+        }
+        .oge-table th {
+            font-weight: bold;
+            text-align: center;
+            padding: 2px 5px; 
+            border-bottom: 1px solid #000;
+            line-height: 1.2;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            white-space: nowrap; 
+        }
+        .oge-table th.center-header {
+            border-bottom: none;
+            padding-bottom: 4px;
+            font-size: 14px;
+        }
+        .oge-table td {
+            padding: 2px 5px; 
+            text-align: center;
+            vertical-align: middle;
+            height: 15px; 
+            white-space: nowrap; 
+            max-width: 300px; 
+        }
+        .oge-table tr td.task-id {
+            text-decoration: underline;
+        }
+        .table-input {
+            width: 100%;
+            min-width: 110px; 
+            box-sizing: border-box; 
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 12px;
+            color: #000;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            letter-spacing: 2px; 
+        }
+        .table-input:focus {
+            outline: 1px solid #007bff;
+            background: #fff;
+        }
+        .right-ans-cell {
+            letter-spacing: 2px;
+        }
+        .correct {
+            background-color: #c0ffc0 !important; 
+        }
+        .incorrect {
+            background-color: #ffc0c0 !important; 
+        }
+        .summary-text {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            margin-top: 12px;
+            color: #000;
+            line-height: 1.4;
+            max-width: 350px;
+        }
+
+        /* ======================================================== */
+        /* НАШИ МОДИФИКАТОРЫ: ТЁМНАЯ ТЕМА И КАСТОМНЫЕ ФОНЫ ДЛЯ САЙТА */
+        /* ======================================================== */
+        body {
+            background-image: url('dark-bg.png') !important; 
+            background-attachment: fixed !important;
+            background-size: contain !important; /* Вмещаем картинку целиком */
+            
+            /* ВЫРАВНИВАЕМ ВЫШЕБАННУЮ КАРТИНКУ ПРЯМО ПО ЦЕНТРУ ЭКРАНА */
+            background-position: center center !important; 
+            background-repeat: no-repeat !important;
+            
+            /* Цвет фона вокруг картинки инсектоида (чистый белый, чтобы сливался с краями мема) */
+            background-color: #ffffff !important; 
+            color: #ffffff !important; 
+        }
+
+        /* Переключение фона на фембоя при клике на сердечко */
+        body.femboy-mode {
+            background-image: url('pink-bg.png') !important; 
+            background-position: center center !important; /* Тоже по центру */
+            
+            /* Цвет фона вокруг фембоя (чистый черный, под цвет его худи и краев картинки) */
+            background-color: #000000 !important; 
+        }
+
+        /* Перекрашиваем интерфейс управления в тёмный цвет */
+        .control-panel, 
+        div[style*="background: #f9f9f9"], 
+        div[style*="background: rgb(249, 249, 249)"] {
+            background: rgba(30, 30, 30, 0.85) !important;
+            border: 1px solid #555 !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+            color: #ffffff !important;
+        }
+        .control-panel h3, label, h4 { color: #ffffff !important; }
+        .control-panel p { color: #cccccc !important; }
+
+        /* Делаем тёмными поля ввода интерфейса */
+        .import-box, .settings-inputs, input[type="text"], textarea, select {
+            background: #222222 !important;
+            border: 1px solid #555555 !important;
+            color: #ffffff !important;
+        }
+        .settings-inputs { background: #2a2a2a !important; }
+        .settings-inputs input { background: #111111 !important; color: #ffffff !important; }
+
+        /* ЖЕСТКИЙ ФИКС: таблица ответов ВСЕГДА остается оригинальной белой для скриншотов */
+        #screenshot-area { 
+            background-color: #ffffff !important; 
+        }
+        #screenshot-area .oge-table, 
+        #screenshot-area .table-wrapper, 
+        #screenshot-area .summary-text { 
+            color: #000000 !important; 
+        }
+        #screenshot-area td {
+            color: #000000 !important;
+        }
+        #screenshot-area td.correct { 
+            background-color: #c0ffc0 !important; 
+        }
+        #screenshot-area td.incorrect { 
+            background-color: #ffc0c0 !important; 
+        }
+        #screenshot-area .table-input { 
+            background: transparent !important; 
+            color: #000000 !important; 
+            border: none !important;
+            outline: none !important;
+        }
+        #screenshot-area .table-input:focus {
+            outline: 1px solid #007bff !important;
+            background: #ffffff !important;
+        }
+</style>
+
+
+</head>
+<body>
+<div onclick="toggleTheme()" style="position: fixed; top: 20px; right: 20px; font-size: 32px; cursor: pointer; z-index: 9999; user-select: none;">💗</div>
+
+
+    <div class="control-panel">
+        <h3>Настройка и умный импорт ответов:</h3>
+        <p style="font-size: 13px; margin: 0; color: #555;">Вставь скопированный блок результатов с сайта РЕШУ ОГЭ:</p>
+        <textarea class="import-box" id="rawImportText" placeholder="Вставь текст таблицы сюда..."></textarea>
+        
+        <div class="settings-inputs">
+            <label>Количество ошибок в тесте: <input type="number" id="autoErrorsInput" value="3" min="0"></label>
+            <label style="margin-left: 20px;">Завалить развёрнутых (в 0б): <input type="number" id="part2FailsInput" value="2" min="0" max="2"></label>
+        </div>
+
+        <button class="btn" onclick="parseAndImport()">📥 Распознать и сгенерировать</button>
+    </div>
+
+    <div id="screenshot-area" style="display: none !important;">
+        
+        <div class="table-wrapper">
+            <table class="oge-table">
+                <thead>
+                    <tr>
+                        <th style="width: 35px;">№<br>п/п</th>
+                        <th style="width: 50px;">№</th>
+                        <!-- ИСПРАВЛЕНИЕ: Вернули родные 110px. Теперь это минимальный базовый размер, но колонка будет расти -->
+                        <th style="min-width: 110px; width: 110px;">Тестовая часть<br>Ваш ответ</th>
+                        <th style="min-width: 110px; width: 110px;"><br>Правильный ответ</th>
+                    </tr>
+                </thead>
+                <tbody id="test-tbody"></tbody>
+            </table>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="oge-table">
+                <thead>
+                    <tr>
+                        <th colspan="4" class="center-header" style="font-weight: bold;">Развернутая часть</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 35px; border-top: none;">№<br>п/п</th>
+                        <th style="width: 50px; border-top: none;">№</th>
+                        <th style="width: 90px; border-top: none;"><br>Ваш балл</th>
+                        <th style="width: 105px; border-top: none;"><br>Максимальный балл</th>
+                    </tr>
+                </thead>
+                <tbody id="part2-tbody"></tbody>
+            </table>
+            <div class="summary-text" id="summary-info"></div>
+        </div>
+
+    </div>
+<!-- БЛОК УПРАВЛЕНИЯ ВАРИАНТАМИ -->
+<<div style="margin: 15px 0; padding: 15px; background: #f9f9f9; border: 1px solid #ccc; border-radius: 6px; font-family: sans-serif; max-width: 850px;">
+    
+    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Выбрать вариант:</label>
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <select id="variantSelector" onchange="loadSelectedVariant()" style="flex-grow: 1; padding: 8px; border-radius: 4px; border: 1px solid #aaa;">
+            <option value="">-- Выбери вариант из списка --</option>
+        </select>
+        <!-- Кнопка удаления (будет доступна только админу) -->
+        <button id="adminDeleteBtn" onclick="deleteCurrentVariant()" style="display: none; background: #c0392b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">🗑 Удалить</button>
+    </div>
+
+    <!-- Скрытая кнопка входа для тебя -->
+    <button onclick="authAdmin()" style="background: #34495e; color: white; border: none; padding: 5px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; opacity: 0.3;">Панель управления</button>
+
+    <!-- Окно внесения (скрыто для всех, открывается по паролю) -->
+    <div id="addVariantPanel" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
+        <h4 style="margin: 0 0 10px 0; color: #2c3e50;">⚙ Панель администратора</h4>
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Название варианта (например, "Вариант 1"):</label>
+        <input type="text" id="newVariantName" style="width: 100%; padding: 6px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="Введите название...">
+        
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Вставь скопированный текст с Решу ОГЭ:</label>
+        <textarea id="newVariantText" style="width: 100%; height: 80px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;" placeholder="Ctrl+A -> Ctrl+C на сайте, вставь сюда..."></textarea>
+        
+        <div style="margin-top: 10px;">
+            <button onclick="saveNewVariant()" style="background: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px; font-weight: bold;">Сохранить в список</button>
+            <button onclick="logoutAdmin()" style="background: #95a5a6; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Выйти из админки</button>
+        </div>
+    </div>
+</div>
+    <script>
+	function toggleTheme() {
+        document.body.classList.toggle('femboy-mode');
+    }
+	// Намертво вшитая база данных со всеми 15 вариантами для всех пользователей
+// Намертво вшитая база данных в виде чистого объекта JS (без капризного JSON.parse)
+var MY_DATABASE = {
+    "Вариант 1 (октябрьский)": "2\t38406\t\t135\n3\t28539\t\t124\n4\t38083\t\t254\n5\t27589\t\t234568\n6\t27596\t\t125\n7\t38080\t\t356\n8\t38100\t\tшестисот\n9\t40805\t\tотвечалзапинаясь\n10\t21298\t\t245\n11\t21299\t\t34\n12\t21300\t\tвоспитанники",
+    "Вариант 2 (октябрьский)": "2\t38633\t\t24\n3\t38634\t\t245\n4\t38091\t\t241\n5\t27645\t\t2467\n6\t28667\t\t124\n7\t38311\t\t134678\n8\t38208\t\tдиректора\n9\t40782\t\tнежносмотреть\n10\t21310\t\t13\n11\t21311\t\t23\n12\t21312\t\tнесводяглаз",
+    "Вариант 3 (октябрьский)": "2\t38626\t\t25\n3\t38629\t\t134\n4\t38255\t\t215\n5\t28010\t\t1234\n6\t28479\t\t35\n7\t38132\t\t125\n8\t38165\t\tжжётся\n9\t40783\t\tзрительныйзал\n10\t27810\t\t24\n11\t28524\t\t25\n12\t28151\t\tпросеку",
+    "Вариант 4 (октябрьский)": "2\t38557\t\t345\n3\t38556\t\t345\n4\t38092\t\t415\n5\t34276\t\t18\n6\t28112\t\t12\n7\t38118\t\t23589\n8\t38212\t\tобоих\n9\t40819\t\tсказалиронично\n10\t27903\t\t245\n11\t28173\t\t35\n12\t28209\t\tгордость",
+    "Вариант 5 (октябрьский)": "2\t38617\t\t14\n3\t38618\t\t34\n4\t38093\t\t523\n5\t27905\t\t17\n6\t34221\t\t25\n7\t38137\t\t345689\n8\t38096\t\tобеим\n9\t40787\t\tмолочногоцвета\n10\t36163\t\t345\n11\t36175\t\t34\n12\t36189\t\tстарыйновых",
+    "Вариант 6 (октябрьский)": "2\t38393\t\t13\n3\t38394\t\t15\n4\t38089\t\t253\n5\t28388\t\t125789\n6\t28731\t\t14\n7\t38323\t\t13468\n8\t38174\t\tдвумстам\n9\t40788\t\tпетушиныйгребень\n10\t36161\t\t23\n11\t36173\t\t14\n12\t36187\t\tпромозглой",
+    "Вариант 7 (октябрьский)": "2\t38408\t\t245\n3\t28720\t\t345\n4\t38231\t\t312\n5\t27909\t\t456789\n6\t28186\t\t124\n7\t38113\t\t1456\n8\t38190\t\tчетырехсот\n9\t40798\t\tподарочек\n10\t28466\t\t123\n11\t28467\t\t45\n12\t28555\t\tукрал",
+    "Вариант 8 (октябрьский)": "2\t38472\t\t45\n3\t38468\t\t123\n4\t38338\t\t234\n5\t28206\t\t5678\n6\t28734\t\t145\n7\t38258\t\t39\n8\t38097\t\tпламени\n9\t40882\t\tкошачьяшерсть\n10\t34288\t\t135\n11\t34289\t\t35\n12\t34290\t\tровнымсчетом",
+    "Вариант 9 (октябрьский)": "2\t38616\t\t23\n3\t38615\t\t135\n4\t38106\t\t342\n5\t28940\t\t245679\n6\t28726\t\t25\n7\t38114\t\t2359\n8\t38173\t\tпромок\n9\t40768\t\tяичныйбелок\n10\t27706\t\t134\n11\t27716\t\t45\n12\t28690\t\tотвечает",
+    "Вариант 10 (октябрьский)": "2\t38467\t\t124\n3\t38466\t\t124\n4\t38349\t\t231\n5\t28347\t\t34568\n6\t28584\t\t13\n7\t38228\t\t24589\n8\t38188\t\tвафель\n9\t40820\t\tбревенчатыйдом\n10\t28346\t\t24\n11\t28533\t\t13\n12\t28090\t\tтонкая",
+    "Вариант 11 (октябрьский)": "2\t38610\t\t235\n3\t38609\t\t24\n4\t38245\t\t354\n5\t28529\t\t134567\n6\t28683\t\t23\n7\t38133\t\t12578\n8\t38206\t\tсолений\n9\t40779\t\tгарантийныйремонт\n10\t27797\t\t34\n11\t28724\t\t25\n12\t27871\t\tбудьздоров",
+    "Вариант 12 (октябрьский)": "2\t38581\t\t125\n3\t38580\t\t245\n4\t38232\t\t235\n5\t28239\t\t17\n6\t28708\t\t134\n7\t38266\t\t1234568\n8\t38202\t\tдвухсот\n9\t40818\t\tсказатьнасмешливо\n10\t28557\t\t45\n11\t27959\t\t35\n12\t28078\t\tпомощь",
+    "Вариант 13 (октябрьский)": "2\t38583\t\t234\n3\t38582\t\t13\n4\t38336\t\t314\n5\t28389\t\t1789\n6\t28888\t\t145\n7\t38125\t\t126789\n8\t38183\t\tсильнее\n9\t40776\t\tсмотрелсмущенно\n10\t28536\t\t35\n11\t28497\t\t25\n12\t28465\t\tпробубнал",
+    "Вариант 14 (октябрьский)": "2\t38409\t\t14\n3\t28834\t\t234\n4\t38146\t\t534\n5\t28946\t\t1247\n6\t28439\t\t25\n7\t38318\t\t2568\n8\t38170\t\tВласовым\n9\t40792\t\tбезветренныйдень\n10\t28007\t\t235\n11\t28612\t\t25\n12\t27674\t\tделикатно",
+    "Вариант 15 (октябрьский)": "2\t38409\t\t14\n3\t28834\t\t234\n4\t38146\t\t534\n5\t28946\t\t1247\n6\t28439\t\t25\n7\t38318\t\t2568\n8\t38170\t\tВласовым\n9\t40792\t\tбезветренныйдень\n10\t28007\t\t235\n11\t28612\t\t25\n12\t27674\t\tделикатно"
+};
+
+        // Базовые массивы для хранения ОРИГИНАЛЬНЫХ данных с сайта
+        var currentRightAnswers = [];
+        var currentTaskIds = [];
+        
+        // Два ID для С-части по умолчанию
+        var currentPart2Ids = [];
+
+        function makeFakeWrongAnswer(correctVal, taskIndex) {
+    if (!correctVal) return "24";
+    
+    var numString = correctVal.toString().trim();
+    var currentLength = numString.length;
+    var realTaskNum = taskIndex + 2; // Строго равен номеру задания ОГЭ (2, 3, 4, 5... 12)
+
+    // ======================================================================
+    // ГРУППА 3. ТЕКСТОВЫЕ ОТВЕТЫ (Задания 8 и 12)
+    // ======================================================================
+    if (realTaskNum === 8 || realTaskNum === 12 || isNaN(numString)) {
+        var word = numString.toLowerCase().replace(/\s+/g, ''); 
+        
+        // Если слово длинное, делаем опечатку невнимательности (меняем буквы местами)
+        if (word.length > 5) {
+            var chars = word.split('');
+            var idx = Math.floor(Math.random() * (chars.length - 3)) + 1;
+            var temp = chars[idx];
+            chars[idx] = chars[idx+1];
+            chars[idx+1] = temp;
+            return chars.join('');
+        }
+        // Изменение окончания
+        if (word.endsWith('ий') || word.endsWith('ый')) {
+            return word.slice(0, -2) + 'их';
+        }
+        return word + 'о';
+    }
+
+    // ======================================================================
+    // ГРУППА 3 (продолжение). Задание №4 (Установление соответствия - строго 3 цифры!)
+    // Выбор идет строго из 5 предложений (1-5), порядок цифр НЕ СОРТИРУЕМ!
+    // ======================================================================
+    if (realTaskNum === 4) {
+        var allowedDigits = "12345"; // Строго до 5 предложений, никаких 8 и 9
+        var finalDigits = numString.split(""); 
+        
+        // Ошибка замены: меняем одну цифру на другую, ПОРЯДОК НЕ СОРТИРУЕМ!
+        var replaceIdx = Math.floor(Math.random() * finalDigits.length);
+        var attempts = 0;
+        while (attempts < 50) {
+            attempts++;
+            var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+            if (!finalDigits.includes(digit)) {
+                finalDigits[replaceIdx] = digit;
+                break;
+            }
+        }
+        
+        var finalFake = finalDigits.join(""); 
+        if (finalFake === numString) {
+            // Если совпал — гарантированно меняем последнюю цифру на другую свободную из диапазона 1-5
+            var possibleExtras = "12345".split("").filter(function(d) { return !finalFake.includes(d); });
+            var newLast = possibleExtras.length > 0 ? possibleExtras[Math.floor(Math.random() * possibleExtras.length)] : (finalFake.charAt(2) === "5" ? "4" : "5");
+            finalFake = finalFake.substring(0, 2) + newLast.toString();
+        }
+        return finalFake;
+    }
+
+    // ======================================================================
+    // ГРУППА 1. Множественный выбор из 5 пунктов (Задания 2, 3, 6, 9, 10, 11)
+    // Строго от 2 до 4 цифр, диапазон только 1-5, по возрастанию!
+    // ======================================================================
+    if (realTaskNum === 2 || realTaskNum === 3 || realTaskNum === 6 || realTaskNum === 9 || realTaskNum === 10 || realTaskNum === 11) {
+        var allowedDigits = "12345";
+        var targetLength = currentLength;
+        var randMode = Math.random();
+        
+        // Меняем длину в пределах от 2 до 4
+        if (randMode < 0.33 && currentLength < 4) {
+            targetLength = currentLength + 1; 
+        } else if (randMode < 0.66 && currentLength > 2) {
+            targetLength = currentLength - 1; 
+        }
+        
+        var finalDigits = numString.split("");
+        
+        if (targetLength < currentLength) {
+            var removeIdx = Math.floor(Math.random() * finalDigits.length);
+            finalDigits.splice(removeIdx, 1);
+        } else if (targetLength > currentLength) {
+            var attempts = 0;
+            while (finalDigits.length < targetLength && attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) finalDigits.push(digit);
+            }
+        } else {
+            var replaceIdx = Math.floor(Math.random() * finalDigits.length);
+            var attempts = 0;
+            while (attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) {
+                    finalDigits[replaceIdx] = digit;
+                    break;
+                }
+            }
+        }
+        
+        var finalFake = finalDigits.sort().join(""); 
+        
+        if (finalFake === numString) {
+            if (finalFake.includes("5")) {
+                finalFake = finalFake.replace("5", "3");
+            } else {
+                finalFake = finalFake + "5";
+            }
+            finalFake = finalFake.split("").sort().join("");
+        }
+        
+        // Жесткий контроль рамок и фильтрация от букв
+        if (finalFake.length < 2) finalFake = "24";
+        if (finalFake.length > 4) finalFake = finalFake.substring(0, 4);
+        
+        return finalFake.split("").filter(function(d) { return "12345".includes(d); }).join("");
+    }
+
+    // ======================================================================
+    // ГРУППА 2. Поиск цифр в тексте (Задания 5 и 7)
+    // Количество ответов не ограничено, диапазон от 1 до 9, по возрастанию!
+    // ======================================================================
+    if (realTaskNum === 5 || realTaskNum === 7) {
+        var allowedDigits = "123456789";
+        var targetLength = currentLength;
+        var randMode = Math.random();
+        
+        if (randMode < 0.33 && currentLength < 9) {
+            targetLength = currentLength + 1;
+        } else if (randMode < 0.66 && currentLength > 1) {
+            targetLength = currentLength - 1;
+        }
+        
+        var finalDigits = numString.split("");
+        
+        if (targetLength < currentLength) {
+            var removeIdx = Math.floor(Math.random() * finalDigits.length);
+            finalDigits.splice(removeIdx, 1);
+        } else if (targetLength > currentLength) {
+            var attempts = 0;
+            while (finalDigits.length < targetLength && attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) finalDigits.push(digit);
+            }
+        } else {
+            var replaceIdx = Math.floor(Math.random() * finalDigits.length);
+            var attempts = 0;
+            while (attempts < 50) {
+                attempts++;
+                var digit = allowedDigits.charAt(Math.floor(Math.random() * allowedDigits.length));
+                if (!finalDigits.includes(digit)) {
+                    finalDigits[replaceIdx] = digit;
+                    break;
+                }
+            }
+        }
+        
+        var finalFake = finalDigits.sort().join(""); 
+        if (finalFake === numString) {
+            if (finalFake.includes("9")) {
+                finalFake = finalFake.replace("9", "1");
+            } else {
+                finalFake = finalFake + "9";
+            }
+            finalFake = finalFake.split("").sort().join("");
+        }
+        
+        return finalFake.split("").filter(function(d) { return "123456789".includes(d); }).join("");
+    }
+
+    return numString; 
+}
+
+
+
+
+
+        function parseAndImport() {
+            var rawText = document.getElementById("rawImportText").value;
+            if (!rawText.trim()) {
+                renderTables();
+                return;
+            }
+
+            var lines = rawText.split("\n");
+            var tempAnswers = [];
+            var tempTaskIds = [];
+            var tempPart2Ids = [];
+
+            for (var i = 0; i < lines.length; i++) {
+                var clean = lines[i].trim();
+                if (!clean) continue;
+                if (clean.includes("Тестовая") || clean.includes("Правильный") || clean.includes("Ваш") || clean.includes("ответ")) continue;
+
+                var tokens = clean.split(/\s+/);
+                
+                // Если это полноценная строчка из таблицы РЕШУ ОГЭ
+                if (tokens.length >= 3) {
+                    var ogeNumber = parseInt(tokens[0]) || 0;
+                    var ogeId = tokens[1].trim();
+                    var potentialAnswer = tokens[tokens.length - 1].trim();
+
+                if (potentialAnswer !== "ответ" && potentialAnswer !== "Ваш" && potentialAnswer !== "") {
+                    if (ogeNumber === 1 || ogeNumber === 13) {
+                        tempPart2Ids.push(ogeId);
+                    } else {
+                        tempAnswers.push(potentialAnswer);
+                        tempTaskIds.push(ogeId);
+                    }
+                }
+            }
+        }
+        if (tempAnswers.length > 0) {
+            currentRightAnswers = tempAnswers;
+            currentTaskIds = tempTaskIds;
+        }
+        if (tempPart2Ids.length > 0) {
+            currentPart2Ids = tempPart2Ids;
+        }
+        renderTables();
+    }
+
+   function renderTables() {
+    var screenshotArea = document.getElementById("screenshot-area");
+    if (screenshotArea) {
+        screenshotArea.style.setProperty("display", "inline-flex", "important");
+    }
+
+    var testTbody = document.getElementById("test-tbody");
+    testTbody.innerHTML = "";
+
+    var testTbody = document.getElementById("test-tbody");
+    testTbody.innerHTML = "";
+    var requestedErrors = parseInt(document.getElementById("autoErrorsInput").value) || 0;
+    var digitalIndices = "";
+    var digitalCount = 0;
+    for (var k = 0; k < currentRightAnswers.length; k++) {
+        if (!isNaN(currentRightAnswers[k])) {
+            digitalIndices += k + ",";
+            digitalCount++;
+        }
+    }
+    if (requestedErrors > digitalCount) requestedErrors = digitalCount;
+    var autoErrorIndices = "";
+    var errorsPicked = 0;
+    var digitalSplit = digitalIndices.split(",");
+    while (errorsPicked < requestedErrors && digitalCount > 0) {
+        var randIndexStr = digitalSplit[Math.floor(Math.random() * digitalCount)];
+        if (randIndexStr !== "" && !autoErrorIndices.includes(randIndexStr + ",")) {
+            autoErrorIndices += randIndexStr + ",";
+            errorsPicked++;
+        }
+    }
+        for (var i = 0; i < currentRightAnswers.length; i++) {
+        var tr = document.createElement("tr");
+        var tdIndex = document.createElement("td");
+        tdIndex.textContent = i + 2;
+        var tdId = document.createElement("td");
+        tdId.className = "task-id";
+        tdId.textContent = i < currentTaskIds.length ? currentTaskIds[i] : "00000";
+        
+        var tdYour = document.createElement("td");
+        
+        // === ПЕРЕВОДИМ НА СТОПРОЦЕНТНУЮ РЕАЛИСТИЧНОСТЬ (БЕЗ ТЕГА INPUT) ===
+        tdYour.className = "right-ans-cell"; // Даем те же стили текста, что и у правого столбца
+        tdYour.style.height = "15px";
+        tdYour.style.padding = "2px 10px"; // Даем отступы по бокам для красоты
+        tdYour.setAttribute("contenteditable", "true"); // Делаем текст редактируемым, если надо поменять руками
+        tdYour.style.outline = "none"; // Убираем рамку при фокусе
+        
+        // Генерируем правильный ответ или наш умный фейк
+        if (autoErrorIndices.includes(i.toString() + ",")) {
+            tdYour.textContent = makeFakeWrongAnswer(currentRightAnswers[i], i);
+            tdYour.classList.add("incorrect");
+        } else {
+            tdYour.textContent = currentRightAnswers[i];
+            tdYour.classList.add("correct");
+        }
+        
+        tdYour.id = "your-ans-" + i; // Жестко привязываем ID к ячейке, чтобы функция выше её нашла
+        tdYour.oninput = (function(index) { 
+            return function() { 
+                updateRowStatus(index); 
+            }; 
+        })(i);
+        // ==================================================================
+
+        var tdRight = document.createElement("td");
+        tdRight.className = "right-ans-cell";
+        tdRight.id = "right-ans-" + i;
+        tdRight.textContent = currentRightAnswers[i];
+        
+        tr.appendChild(tdIndex); 
+        tr.appendChild(tdId); 
+        tr.appendChild(tdYour); 
+        tr.appendChild(tdRight);
+        testTbody.appendChild(tr);
+    }
+
+    var part2Tbody = document.getElementById("part2-tbody");
+    part2Tbody.innerHTML = "";
+    var part2Fails = parseInt(document.getElementById("part2FailsInput").value) || 0;
+    var part2Configs = [{p: 1, m: 6}, {p: 13, m: 16}];
+    for (var j = 0; j < part2Configs.length; j++) {
+        var tr2 = document.createElement("tr");
+        var tdIndex2 = document.createElement("td");
+        tdIndex2.className = "task-pp";
+        tdIndex2.textContent = part2Configs[j].p;
+        var tdId2 = document.createElement("td");
+        tdId2.className = "task-id";
+        tdId2.textContent = j < currentPart2Ids.length ? currentPart2Ids[j] : "00000";
+        var tdYourBall = document.createElement("td");
+        var inputBall = document.createElement("input");
+        inputBall.type = "text";
+        inputBall.className = "table-input";
+        inputBall.id = "your-ball-" + j;
+        if (j < part2Fails) { inputBall.value = "0"; tdYourBall.className = "incorrect"; }
+        else { inputBall.value = part2Configs[j].m; tdYourBall.className = "correct"; }
+        inputBall.oninput = recalculateTotal;
+        tdYourBall.appendChild(inputBall);
+        var tdMaxBall = document.createElement("td");
+        tdMaxBall.id = "max-ball-" + j;
+        tdMaxBall.textContent = part2Configs[j].m;
+        tr2.appendChild(tdIndex2); tr2.appendChild(tdId2); tr2.appendChild(tdYourBall); tr2.appendChild(tdMaxBall);
+        part2Tbody.appendChild(tr2);
+    }
+    recalculateTotal();
+}
+
+
+    function updateRowStatus(index) {
+    var yourCell = document.getElementById("your-ans-" + index);
+    var rightCell = document.getElementById("right-ans-" + index);
+    
+    if (!yourCell || !rightCell) return; // Защита от ошибок, если ячейка не нашлась
+
+    var userVal = yourCell.textContent.trim(); // Считываем текст напрямую из ячейки (без .value)
+    var rightVal = rightCell.textContent.trim();
+
+    // Красим саму ячейку в нужный класс, сохраняя шрифт Verdana (right-ans-cell)
+    if (userVal === rightVal) { 
+        yourCell.className = "right-ans-cell correct"; 
+    } else { 
+        yourCell.className = "right-ans-cell incorrect"; 
+    }
+    
+    recalculateTotal();
+}
+
+
+    function recalculateTotal() {
+        var testCorrect = 0;
+        var totalTasks = currentRightAnswers.length + 2;
+        for (var i = 0; i < currentRightAnswers.length; i++) {
+            var yourInput = document.getElementById("your-ans-" + i);
+            var rightVal = document.getElementById("right-ans-" + i).textContent.trim();
+            if (yourInput && yourInput.value.trim() === rightVal) { testCorrect++; }
+        }
+        var part2Points = 0;
+        var solvedPart2Count = 0;
+        for (var j = 0; j < 2; j++) {
+            var ballInput = document.getElementById("your-ball-" + j);
+            var currentBall = parseInt(ballInput ? ballInput.value : 0) || 0;
+            var tdCell2 = ballInput ? ballInput.parentElement : null;
+            if (tdCell2) {
+                if (currentBall === 0) { tdCell2.className = "incorrect"; }
+                else { tdCell2.className = "correct"; solvedPart2Count++; }
+            }
+            part2Points = part2Points + currentBall;
+        }
+        var finalSolved = testCorrect + solvedPart2Count;
+        var finalScore = testCorrect + part2Points;
+        var summary = document.getElementById("summary-info");
+        summary.innerHTML = "Решено " + finalSolved + " из " + totalTasks + " заданий, набрано " + finalScore + " первичных баллов.";
+    }
+
+// Автоматическая загрузка списка вариантов при старте страницы
+document.addEventListener("DOMContentLoaded", function() {
+    updateVariantDropdown();
+});
+
+// Функция обновления выпадающего списка кнопками
+function updateVariantDropdown() {
+    var selector = document.getElementById('variantSelector');
+    // Очищаем всё, кроме первой дефолтной строки
+    selector.innerHTML = '<option value="">-- Выбери вариант из списка --</option>';
+    
+    // Перебираем намертво вшитую базу данных MY_DATABASE
+    if (typeof MY_DATABASE !== "undefined") {
+        for (var varName in MY_DATABASE) {
+            var option = document.createElement('option');
+            option.value = varName;
+            option.textContent = varName;
+            selector.appendChild(option);
+        }
+    }
+}
+
+
+// Функция сохранения нового варианта в базу данных браузера
+function saveNewVariant() {
+    var name = document.getElementById('newVariantName').value.trim();
+    var text = document.getElementById('newVariantText').value.trim();
+    
+    if (!name || !text) {
+        alert("Заполните и название, и текст варианта!");
+        return;
+    }
+    
+    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
+    savedVariants[name] = text; // Привязываем текст к названию
+    
+    localStorage.setItem('oge_my_variants', JSON.stringify(savedVariants));
+    
+    // Очищаем форму и обновляем кнопку выбора вариантов
+    document.getElementById('newVariantName').value = '';
+    document.getElementById('newVariantText').value = '';
+    document.getElementById('addVariantPanel').style.display = 'none';
+    
+    updateVariantDropdown();
+    alert("Вариант '" + name + "' успешно добавлен в список!");
+}
+
+// Переключение варианта: берет текст и кормит его твоему родному коду
+function loadSelectedVariant() {
+    var selector = document.getElementById('variantSelector');
+    var selectedName = selector.value;
+    
+    if (!selectedName) return;
+    
+    // Достаем текст варианта из вшитой базы
+    var rawText = MY_DATABASE[selectedName];
+    
+    if (rawText) {
+        // Находим твое верхнее текстовое поле (у тебя оно id="rawImportText")
+        var mainTextarea = document.getElementById('rawImportText') || document.querySelector('textarea');
+        
+        if (mainTextarea) {
+            // Записываем сохраненный текст в поле ввода
+            mainTextarea.value = rawText;
+            
+            // Имитируем клик по твоей синей кнопке «Распознать и сгенерировать»
+            var allButtons = document.querySelectorAll('button');
+            var generateButton = null;
+            
+            for (var i = 0; i < allButtons.length; i++) {
+                if (allButtons[i].textContent.includes('Распознать и сгенерировать')) {
+                    generateButton = allButtons[i];
+                    break;
+                }
+            }
+            
+            // Если кнопку нашли — кликаем, и скриншот мгновенно обновляется!
+            if (generateButton) {
+                generateButton.click();
+            } else {
+                // Если кнопка не кликнулась сама, вызываем функцию парсинга напрямую
+                if (typeof parseAndImport === "function") {
+                    parseAndImport();
+                }
+            }
+        } else {
+            alert("Не удалось найти поле для ввода текста на странице.");
+        }
+    }
+}
+// НАСТРОЙ СВОЙ СЕКРЕТНЫЙ ПАРОЛЬ ТУТ:
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateVariantDropdown();
+    checkAdminSession(); // Проверяем, залогинен ли ты уже
+});
+
+// Проверка сессии админа (чтобы не вводить пароль при каждой перезагрузке)
+function checkAdminSession() {
+    if (sessionStorage.getItem("is_oge_admin") === "true") {
+        document.getElementById('addVariantPanel').style.display = 'block';
+        document.getElementById('adminDeleteBtn').style.display = 'block';
+    }
+}
+
+// Вход в панель управления
+// Вход в панель управления с жестко прописанным паролем
+function authAdmin() {
+    var pass = prompt("Введите пароль администратора:");
+    
+    // Проверяем введенный текст напрямую, без использования внешних переменных
+    if (pass === "ventillator") { 
+        sessionStorage.setItem("is_oge_admin", "true");
+        document.getElementById('addVariantPanel').style.display = 'block';
+        document.getElementById('adminDeleteBtn').style.display = 'block';
+        alert("Доступ разрешен. Кнопки добавления и удаления активны!");
+    } else if (pass !== null) {
+        alert("Неверный пароль!");
+    }
+}
+
+// Выход из админки (панель снова скроется)
+function logoutAdmin() {
+    sessionStorage.removeItem("is_oge_admin");
+    document.getElementById('addVariantPanel').style.display = 'none';
+    document.getElementById('adminDeleteBtn').style.display = 'none';
+}
+
+// Обновление списка в меню
+function updateVariantDropdown() {
+    var selector = document.getElementById('variantSelector');
+    // Очищаем всё, кроме первой дефолтной строки
+    selector.innerHTML = '<option value="">-- Выбери вариант из списка --</option>';
+    
+    // СТРОГИЙ ФИКС: Перебираем намертво вшитую базу данных MY_DATABASE вместо localStorage
+    if (typeof MY_DATABASE !== "undefined") {
+        for (var varName in MY_DATABASE) {
+            var option = document.createElement('option');
+            option.value = varName;
+            option.textContent = varName;
+            selector.appendChild(option);
+        }
+    }
+}
+
+
+// Сохранение нового варианта
+function saveNewVariant() {
+    var name = document.getElementById('newVariantName').value.trim();
+    var text = document.getElementById('newVariantText').value.trim();
+    
+    if (!name || !text) {
+        alert("Заполните все поля!");
+        return;
+    }
+    
+    var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
+    savedVariants[name] = text;
+    
+    localStorage.setItem('oge_my_variants', JSON.stringify(savedVariants));
+    
+    document.getElementById('newVariantName').value = '';
+    document.getElementById('newVariantText').value = '';
+    
+    updateVariantDropdown();
+    alert("Вариант успешно добавлен!");
+}
+
+// Удаление выбранного варианта
+function deleteCurrentVariant() {
+    var selector = document.getElementById('variantSelector');
+    var selectedName = selector.value;
+    
+    if (!selectedName) {
+        alert("Сначала выбери вариант, который хочешь удалить!");
+        return;
+    }
+    
+    if (confirm("Ты точно хочешь безвозвратно удалить '" + selectedName + "'?")) {
+        var savedVariants = JSON.parse(localStorage.getItem('oge_my_variants')) || {};
+        delete savedVariants[selectedName]; // Удаляем из базы
+        
+        localStorage.setItem('oge_my_variants', JSON.stringify(savedVariants));
+        updateVariantDropdown();
+        
+        // Очищаем форму ввода
+        var mainTextarea = document.getElementById('rawImportText') || document.querySelector('textarea');
+        if (mainTextarea) mainTextarea.value = '';
+        
+        alert("Вариант удален.");
+    }
+}
+
+// Загрузка варианта в таблицу
+function loadSelectedVariant() {
+    var selector = document.getElementById('variantSelector');
+    var selectedName = selector.value;
+    if (!selectedName) return;
+    
+    // СТРОГИЙ ФИКС: читаем текст напрямую из вшитой базы данных, а не из пустой памяти!
+    var rawText = MY_DATABASE[selectedName];
+    
+    if (rawText) {
+        var mainTextarea = document.getElementById('rawImportText') || document.querySelector('textarea');
+        if (mainTextarea) {
+            mainTextarea.value = rawText;
+            
+            // Сами триггерим твою родную функцию парсинга
+            if (typeof parseAndImport === "function") {
+                parseAndImport();
+            }
+        }
+    }
+}
+updateVariantDropdown();
+
+
+</script>
+</body>
+</html>
